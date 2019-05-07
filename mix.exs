@@ -12,7 +12,7 @@ defmodule ExAwsS3Crypto.MixProject do
       elixir: "~> 1.8",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "Client-side encryption for AWS S3",
+      description: "AWS S3 client-side encryption support",
       package: package(),
       source_url: @repo,
       docs: [
