@@ -1,9 +1,7 @@
 defmodule ExAws.S3.Crypto.KMSWrapper do
   def generate_data_key(key_id) do
-    # OK - so if we don't use key_spec: "" then ExAws.KMS sets it to AES_256.  If we don't use number_of_bytes,
-    # sometimes we get a key back that's less than 32 bytes for some unknown reason
-    # ExAws.Operation.JSON.new(:kms, %{
-    ExAws.KMS.generate_data_key(key_id,
+    key_id
+    |> ExAws.KMS.generate_data_key(
       key_spec: "AES_256",
       encryption_context: %{"kms_cmk_id" => key_id}
     )

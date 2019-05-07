@@ -7,7 +7,8 @@ defmodule ExAws.S3.Crypto do
   import ExAws.S3.Utils, only: [put_object_headers: 1]
 
   def put_encrypted_object(bucket, object, body, key_id, opts \\ []) do
-    ExAws.S3.put_object(bucket, object, body, opts)
+    bucket
+    |> ExAws.S3.put_object(object, body, opts)
     |> encrypt(key_id, opts)
     |> case do
       {:ok, request} ->
@@ -19,7 +20,8 @@ defmodule ExAws.S3.Crypto do
   end
 
   def get_encrypted_object(bucket, object, opts \\ []) do
-    ExAws.S3.get_object(bucket, object, opts)
+    bucket
+    |> ExAws.S3.get_object(object, opts)
     |> ExAws.request()
     |> case do
       {:ok, response} ->

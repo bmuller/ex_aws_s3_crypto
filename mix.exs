@@ -2,6 +2,7 @@ defmodule ExAwsS3Crypto.MixProject do
   use Mix.Project
 
   @version "0.1.0"
+  @repo "https://github.com/bmuller/ex-aws-s3-crypto"
 
   def project do
     [
@@ -13,12 +14,12 @@ defmodule ExAwsS3Crypto.MixProject do
       deps: deps(),
       description: "Client-side encryption for AWS S3",
       package: package(),
-      source_url: "https://github.com/bmuller/ex-aws-s3-crypto"
-      # docs: [
-      #  source_ref: "v#{@version}",
-      #  main: "ExAwsS3Crypto",
-      #  formatters: ["html", "epub"]
-      # ]      
+      source_url: @repo,
+      docs: [
+        source_ref: "v#{@version}",
+        main: "ExAws.S3.Crypto",
+        formatters: ["html", "epub"]
+      ]
     ]
   end
 
@@ -37,7 +38,7 @@ defmodule ExAwsS3Crypto.MixProject do
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Brian Muller"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/bmuller/ex-aws-s3-crypto"}
+      links: %{"GitHub" => @repo}
     ]
   end
 
