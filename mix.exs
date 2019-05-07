@@ -54,11 +54,8 @@ defmodule ExAwsS3Crypto.MixProject do
     [
       {:ex_doc, "~> 0.18", only: :dev},
       {:credo, "~> 1.0", only: [:dev, :test], runtime: false},
-      # this override is necessary until the next release of ex_aws_kms.
-      # see https://github.com/ex-aws/ex_aws_kms/issues/3
-      {:ex_aws, "~> 2.0", override: true},
+      {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
-      {:ex_aws_kms, "~> 2.0"},
       {:hackney, "~> 1.9", only: [:dev, :test]},
       {:poison, "~> 3.0"},
       {:configparser_ex, "~> 4.0", only: [:dev, :test]}
