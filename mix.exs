@@ -1,8 +1,8 @@
 defmodule ExAwsS3Crypto.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
-  @repo "https://github.com/bmuller/ex-aws-s3-crypto"
+  @version "0.1.1"
+  @repo "https://github.com/bmuller/ex_aws_s3_crypto"
 
   def project do
     [
