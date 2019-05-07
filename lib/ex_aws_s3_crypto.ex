@@ -56,7 +56,13 @@ defmodule ExAws.S3.Crypto do
 
       ExAws.S3.Crypto.put_encrypted_object(bucket, "secret.txt.enc", contents, key_id)
   """
-  @spec put_encrypted_object(bucket :: binary, object :: binary, body :: binary, key_id :: binary, opts :: ExAws.S3.put_object_opts) :: ExAws.Request.response_t
+  @spec put_encrypted_object(
+          bucket :: binary,
+          object :: binary,
+          body :: binary,
+          key_id :: binary,
+          opts :: ExAws.S3.put_object_opts()
+        ) :: ExAws.Request.response_t()
   def put_encrypted_object(bucket, object, body, key_id, opts \\ []) do
     bucket
     |> ExAws.S3.put_object(object, body, opts)
@@ -79,7 +85,11 @@ defmodule ExAws.S3.Crypto do
       {:ok, decrypted} = ExAws.S3.Crypto.get_encrypted_object("my-awesome-bucket", "secret.txt.enc")
       IO.puts decrypted.body
   """
-  @spec get_encrypted_object(bucket :: binary, object :: binary, opts :: ExAws.S3.get_object_opts) :: ExAws.Request.response_t
+  @spec get_encrypted_object(
+          bucket :: binary,
+          object :: binary,
+          opts :: ExAws.S3.get_object_opts()
+        ) :: ExAws.Request.response_t()
   def get_encrypted_object(bucket, object, opts \\ []) do
     bucket
     |> ExAws.S3.get_object(object, opts)
@@ -94,8 +104,8 @@ defmodule ExAws.S3.Crypto do
   end
 
   @type supported_cipher :: :aes_gcm
-  @type encrypt_opts :: [ {:cipher, supported_cipher }]
-  
+  @type encrypt_opts :: [{:cipher, supported_cipher}]
+
   @doc """
   Modify a `ExAws.Operation.S3` put operation by encrypting the body with a key generated
   from KMS using the given master key_id.
@@ -111,7 +121,8 @@ defmodule ExAws.S3.Crypto do
       {:ok, encrypted_request} = ExAws.S3.Crypto.encrypt(request, key_id)
       ExAws.request(encrypted_request)
   """
-  @spec encrypt(operation :: ExAws.Operation.S3.t, key_id :: binary, opts :: encrypt_opts) :: ExAws.Operation.S3.t
+  @spec encrypt(operation :: ExAws.Operation.S3.t(), key_id :: binary, opts :: encrypt_opts) ::
+          ExAws.Operation.S3.t()
   def encrypt(%ExAws.Operation.S3{http_method: :put} = operation, key_id, opts \\ []) do
     cipher = Keyword.get(opts, :cipher, :aes_gcm)
 
@@ -137,7 +148,7 @@ defmodule ExAws.S3.Crypto do
       {:ok, decrypted} = ExAws.S3.Crypto.decrypt(encrypted)
       IO.puts decrypted.body
   """
-  @spec decrypt(response :: ExAws.Request.response_t) :: ExAws.Request.response_t
+  @spec decrypt(response :: ExAws.Request.response_t()) :: ExAws.Request.response_t()
   def decrypt(%{body: body, headers: headers} = response) do
     case decrypt_body(body, Map.new(headers)) do
       {:ok, decrypted} ->
