@@ -168,7 +168,7 @@ defmodule ExAws.S3.Crypto do
            "x-amz-meta-x-amz-matdesc" => matdesc
          } = headers
        ) do
-    with {:ok, context} <- Poison.decode(matdesc),
+    with {:ok, context} <- Jason.decode(matdesc),
          {:ok, key} <- KMSWrapper.decrypt_key(encrypted_keyblob, context),
          {:ok, decrypted} <- AESGCMCipher.decrypt(key, body, :base64.decode(encoded_iv)),
          {:ok} <- validate_length(decrypted, headers) do
@@ -209,7 +209,7 @@ defmodule ExAws.S3.Crypto do
       {"x-amz-unencrypted-content-length", String.length(contents)},
       {"x-amz-cek-alg", "AES/GCM/NoPadding"},
       {"x-amz-wrap-alg", "kms"},
-      {"x-amz-matdesc", Poison.encode!(%{kms_cmk_id: key_id})},
+      {"x-amz-matdesc", Jason.encode!(%{kms_cmk_id: key_id})},
       {"x-amz-tag-len", "128"}
     ]
 
