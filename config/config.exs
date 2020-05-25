@@ -32,3 +32,6 @@ use Mix.Config
 # config :ex_aws,
 #  access_key_id: {:awscli, "default", 30},
 #  secret_access_key: {:awscli, "default", 30}
+#
+# config :ex_aws, :hackney_opts,
+#  ssl_options: [versions: [:"tlsv1.2"]]

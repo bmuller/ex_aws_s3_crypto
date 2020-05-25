@@ -1,7 +1,7 @@
 defmodule ExAwsS3Crypto.MixProject do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "1.0.0"
   @repo "https://github.com/bmuller/ex_aws_s3_crypto"
 
   def project do
@@ -52,12 +52,13 @@ defmodule ExAwsS3Crypto.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_doc, "~> 0.18", only: :dev},
-      {:credo, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.22", only: :dev},
+      {:credo, "~> 1.2", only: [:dev, :test], runtime: false},
       {:ex_aws, "~> 2.1"},
       {:ex_aws_s3, "~> 2.0"},
-      {:hackney, "~> 1.9", only: [:dev, :test]},
-      {:jason, "~> 1.1"},
+      {:ex_aws_kms, "~> 2.1"},
+      {:hackney, "~> 1.15", only: [:dev, :test]},
+      {:jason, "~> 1.2"},
       {:configparser_ex, "~> 4.0", only: [:dev, :test]}
     ]
   end

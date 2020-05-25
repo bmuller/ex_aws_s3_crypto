@@ -9,7 +9,7 @@ import "github.com/aws/aws-sdk-go/service/s3"
 import "github.com/aws/aws-sdk-go/service/kms"
 import "github.com/aws/aws-sdk-go/service/s3/s3crypto"
 
-# Set these before running!
+// Set these before running!
 const (
 	Bucket = ""
 	MasterKeyId = ""

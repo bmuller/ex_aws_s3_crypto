@@ -3,7 +3,7 @@ defmodule ExAws.S3.Crypto.KMSWrapper do
   Utility module to wrap calls to `ExAws.KMS` to generate / decrypt [data keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys).
   """
 
-  alias ExAws.S3.Crypto.KMS
+  alias ExAws.KMS
 
   @doc """
   Generate a [data key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#data-keys) for the master key with the given id.

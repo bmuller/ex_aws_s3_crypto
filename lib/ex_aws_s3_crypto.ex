@@ -1,11 +1,11 @@
 defmodule ExAws.S3.Crypto do
   @moduledoc """
-  `Crypto` provides [client-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html) support for
+  `ExAws.S3.Crypto` provides [client-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html) support for
   [Amazon S3](https://aws.amazon.com/s3/).  It allows you to encrypt data before sending it to S3.  This particular implementation
   currently supports a [AWS KMS-managed customer master key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys)
   and assumes you have one already generated.
 
-  `Crypto` makes heavy use of the existing [ex_aws_s3](https://hex.pm/packages/ex_aws_s3) library
+  This library makes heavy use of the existing [ex_aws_s3](https://hex.pm/packages/ex_aws_s3) library
   and Erlang's [crypto module](http://erlang.org/doc/man/crypto.html).  It has confirmed compatability with the [Golang AWS SDK client-encryption
   library](https://github.com/aws/aws-sdk-go/tree/master/service/s3) and uses [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
   [GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode) with 256-bit keys by default.
