@@ -1,7 +1,7 @@
 defmodule ExAwsS3Crypto.MixProject do
   use Mix.Project
 
-  @version "1.0.0"
+  @version "2.0.0"
   @repo "https://github.com/bmuller/ex_aws_s3_crypto"
 
   def project do
@@ -19,13 +19,14 @@ defmodule ExAwsS3Crypto.MixProject do
         source_ref: "v#{@version}",
         main: "ExAws.S3.Crypto",
         formatters: ["html", "epub"]
-      ]
+      ],
+      preferred_cli_env: [test: :test, "ci.test": :test]
     ]
   end
 
   defp aliases do
     [
-      test: [
+      "ci.test": [
         "format --check-formatted",
         "test",
         "credo"
@@ -52,14 +53,14 @@ defmodule ExAwsS3Crypto.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_doc, "~> 0.22", only: :dev},
-      {:credo, "~> 1.2", only: [:dev, :test], runtime: false},
-      {:ex_aws, "~> 2.1"},
-      {:ex_aws_s3, "~> 2.0"},
-      {:ex_aws_kms, "~> 2.1"},
-      {:hackney, "~> 1.15", only: [:dev, :test]},
-      {:jason, "~> 1.2"},
-      {:configparser_ex, "~> 4.0", only: [:dev, :test]}
+      {:configparser_ex, "~> 4.0", only: [:dev, :test]},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:ex_aws, "~> 2.2"},
+      {:ex_aws_kms, "~> 2.2"},
+      {:ex_aws_s3, "~> 2.2"},
+      {:ex_doc, "~> 0.24", only: :dev},
+      {:hackney, "~> 1.17", only: [:dev, :test]},
+      {:jason, "~> 1.2"}
     ]
   end
 end

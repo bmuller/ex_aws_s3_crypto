@@ -13,6 +13,8 @@ and Erlang's [crypto module](http://erlang.org/doc/man/crypto.html).  It has con
 library](https://github.com/aws/aws-sdk-go/tree/master/service/s3) and uses [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
 [GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode) with 256-bit keys by default.
 
+**Note:** As of version 2.0, OTP version 22 or greater is required due to changes in the `:crypto` library.
+
 ## Installation
 
 To install ExAws.S3.Crypto, just add an entry to your `mix.exs`:

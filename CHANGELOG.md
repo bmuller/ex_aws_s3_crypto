@@ -1,4 +1,14 @@
-# Changelog for v1.x
+# Changelog
+
+## v2.0.0 (2021-05-24)
+
+### Enhancements
+
+  * Full support for the crypto changes added in OTP 22
+
+### Hard-deprecations
+
+  * No OTP versions below 22 are supported.
 
 ## v1.0.0 (2020-05-24)
 

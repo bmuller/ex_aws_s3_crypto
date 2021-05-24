@@ -3,8 +3,7 @@ defmodule ExAws.S3.Crypto.AESGCMCipher do
   This module wraps the logic necessary to encrypt / decrypt using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
   [GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode).
 
-  See the Erlang docs for [encrypt](http://erlang.org/doc/man/crypto.html#block_encrypt-4) and [decrypt](http://erlang.org/doc/man/crypto.html#block_decrypt-4)
-  for more info.
+  See the Erlang docs for [crypto_one_time_aead](https://erlang.org/doc/man/crypto.html#crypto_one_time_aead-7) for more info.
   """
 
   @auth_data ""
@@ -23,12 +22,13 @@ defmodule ExAws.S3.Crypto.AESGCMCipher do
 
     try do
       {ciphertext, ciphertag} =
-        :crypto.block_encrypt(:aes_gcm, key, iv, {@auth_data, contents, @tag_size})
+        :crypto.crypto_one_time_aead(:aes_256_gcm, key, iv, contents, @auth_data, @tag_size, true)
 
       {:ok, {ciphertext <> ciphertag, iv}}
     rescue
-      e in ArgumentError ->
-        {:error, e.message}
+      e in ErlangError ->
+        %ErlangError{original: {_tag, _location, desc}} = e
+        {:error, desc}
     end
   end
 
@@ -42,7 +42,9 @@ defmodule ExAws.S3.Crypto.AESGCMCipher do
     textsize = (byte_size(contents) - @tag_size) * 8
     <<ciphertext::bitstring-size(textsize), ciphertag::bitstring>> = contents
 
-    case :crypto.block_decrypt(:aes_gcm, key, iv, {@auth_data, ciphertext, ciphertag}) do
+    :aes_256_gcm
+    |> :crypto.crypto_one_time_aead(key, iv, ciphertext, @auth_data, ciphertag, false)
+    |> case do
       :error ->
         {:error, "Could not decrypt contents"}
 

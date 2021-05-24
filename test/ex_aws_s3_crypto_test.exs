@@ -17,7 +17,7 @@ defmodule ExAws.S3.Crypto.AESGCMCipherTest do
 
     test "bad input should return error" do
       contents = "hello there, this is secret"
-      assert match?({:error, _}, AESGCMCipher.encrypt(<<>>, contents))
+      assert match?({:error, _}, AESGCMCipher.encrypt(contents, contents))
     end
   end
 
