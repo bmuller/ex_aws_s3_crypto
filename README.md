@@ -22,7 +22,7 @@ To install ExAws.S3.Crypto, just add an entry to your `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ex_aws_s3_crypto, "~> 1.0"}
+    {:ex_aws_s3_crypto, "~> 2.0"}
   ]
 end
 ```
