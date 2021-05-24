@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.0.1 (2021-05-24)
+
+### Bug Fixes
+
+  * Ensure that tests pass in OTP version 22-24
+
 ## v2.0.0 (2021-05-24)
 
 ### Enhancements
