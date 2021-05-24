@@ -11,7 +11,10 @@ defmodule ExAws.S3.Crypto.AESGCMCipherTest do
 
       textsize = (byte_size(crypted) - 16) * 8
       <<ciphertext::bitstring-size(textsize), ciphertag::bitstring>> = crypted
-      decrypted = :crypto.block_decrypt(:aes_gcm, key, iv, {"", ciphertext, ciphertag})
+
+      decrypted =
+        :crypto.crypto_one_time_aead(:aes_256_gcm, key, iv, ciphertext, "", ciphertag, false)
+
       assert decrypted == contents
     end
 
@@ -26,7 +29,10 @@ defmodule ExAws.S3.Crypto.AESGCMCipherTest do
       contents = "hello there, this is secret"
       key = :crypto.strong_rand_bytes(32)
       iv = :crypto.strong_rand_bytes(12)
-      {ciphertext, ciphertag} = :crypto.block_encrypt(:aes_gcm, key, iv, {"", contents, 16})
+
+      {ciphertext, ciphertag} =
+        :crypto.crypto_one_time_aead(:aes_256_gcm, key, iv, contents, "", 16, true)
+
       crypted = ciphertext <> ciphertag
 
       assert AESGCMCipher.decrypt(key, crypted, iv) == {:ok, contents}

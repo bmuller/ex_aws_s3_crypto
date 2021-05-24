@@ -1,5 +1,5 @@
 # ExAws.S3.Crypto
-[![Build Status](https://secure.travis-ci.org/bmuller/ex_aws_s3_crypto.png?branch=master)](https://travis-ci.org/bmuller/ex_aws_s3_crypto)
+[![Build Status](https://github.com/bmuller/ex_aws_s3_crypto/actions/workflows/ci.yml/badge.svg)](https://github.com/bmuller/ex_aws_s3_crypto/actions/workflows/ci.yml)
 [![Hex pm](http://img.shields.io/hexpm/v/ex_aws_s3_crypto.svg?style=flat)](https://hex.pm/packages/ex_aws_s3_crypto)
 [![API Docs](https://img.shields.io/badge/api-docs-lightgreen.svg?style=flat)](https://hexdocs.pm/ex_aws_s3_crypto/)
 
