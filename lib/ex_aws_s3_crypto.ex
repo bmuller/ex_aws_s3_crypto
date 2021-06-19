@@ -182,10 +182,20 @@ defmodule ExAws.S3.Crypto do
   defp decrypt_body(_, _), do: {:error, "Object missing client-side encryption metadata necssary"}
 
   defp validate_length(decrypted, %{"x-amz-meta-x-amz-unencrypted-content-length" => length}) do
-    if String.length(decrypted) == String.to_integer(length) do
-      {:ok}
-    else
-      {:error, "Unencrypted body doesn't match size expected in headers"}
+    expected = String.to_integer(length)
+    bytes = byte_size(decrypted)
+
+    cond do
+      byte_size(decrypted) == expected ->
+        {:ok}
+
+      String.length(decrypted) == expected ->
+        # due to a bug in the way size was previously calculated (using String.length) don't
+        # error if the String length of the decrypted result matches the expected value
+        {:ok}
+
+      true ->
+        {:error, "Decrypted body size (#{bytes}) is not size expected in headers (#{expected})"}
     end
   end
 
@@ -206,7 +216,7 @@ defmodule ExAws.S3.Crypto do
     meta = [
       {"x-amz-key-v2", encrypted_keyblob},
       {"x-amz-iv", :base64.encode(iv)},
-      {"x-amz-unencrypted-content-length", String.length(contents)},
+      {"x-amz-unencrypted-content-length", byte_size(contents)},
       {"x-amz-cek-alg", "AES/GCM/NoPadding"},
       {"x-amz-wrap-alg", "kms"},
       {"x-amz-matdesc", Jason.encode!(%{kms_cmk_id: key_id})},

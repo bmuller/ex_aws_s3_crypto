@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.0 (2021-06-19)
+
+### Bug Fixes
+
+  * Previous versions incorrectly stored `String.length/1` (rather than `byte_size`) in content-length metadata.
+
 ## v2.0.1 (2021-05-24)
 
 ### Bug Fixes
