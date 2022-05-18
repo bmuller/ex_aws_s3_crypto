@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         otp: [22.2, 23, 24]
-        elixir: [1.9.4, 1.10.4, 1.11.2, 1.12.0]
+        elixir: [1.10.4, 1.11.2, 1.12.0, 1.13]
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
@@ -16,5 +16,5 @@ jobs:
           otp-version: ${{matrix.otp}}
       - run: mix deps.get
       - run: mix credo
-      - run: mix format --check-formatted      
+      - run: mix format --check-formatted
       - run: mix test

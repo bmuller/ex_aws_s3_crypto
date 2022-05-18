@@ -1,7 +1,7 @@
 defmodule ExAwsS3Crypto.MixProject do
   use Mix.Project
 
-  @version "3.0.0"
+  @version "3.0.1"
   @repo "https://github.com/bmuller/ex_aws_s3_crypto"
 
   def project do
@@ -17,8 +17,9 @@ defmodule ExAwsS3Crypto.MixProject do
       source_url: @repo,
       docs: [
         source_ref: "v#{@version}",
+        source_url: @repo,
         main: "ExAws.S3.Crypto",
-        formatters: ["html", "epub"]
+        formatters: ["html"]
       ],
       preferred_cli_env: [test: :test, "ci.test": :test]
     ]
@@ -39,7 +40,10 @@ defmodule ExAwsS3Crypto.MixProject do
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Brian Muller"],
       licenses: ["MIT"],
-      links: %{"GitHub" => @repo}
+      links: %{
+        "GitHub" => @repo,
+        "Changelog" => "#{@repo}/blob/master/CHANGELOG.md"
+      }
     ]
   end
 

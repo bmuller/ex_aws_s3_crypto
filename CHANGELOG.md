@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.1 (2022-05-18)
+
+### Bug Fixes
+
+  * Removed unnecessary config directory and use of deprecated Mix.Config
+
 ## v3.0.0 (2021-06-19)
 
 ### Bug Fixes
