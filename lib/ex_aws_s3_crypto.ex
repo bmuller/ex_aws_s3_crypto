@@ -62,7 +62,7 @@ defmodule ExAws.S3.Crypto do
           body :: binary,
           key_id :: binary,
           opts :: ExAws.S3.put_object_opts()
-        ) :: ExAws.Request.response_t()
+        ) :: {:ok, term()} | {:error, term()}
   def put_encrypted_object(bucket, object, body, key_id, opts \\ []) do
     bucket
     |> ExAws.S3.put_object(object, body, opts)
@@ -89,7 +89,7 @@ defmodule ExAws.S3.Crypto do
           bucket :: binary,
           object :: binary,
           opts :: ExAws.S3.get_object_opts()
-        ) :: ExAws.Request.response_t()
+        ) :: {:ok, term()} | {:error, term()}
   def get_encrypted_object(bucket, object, opts \\ []) do
     bucket
     |> ExAws.S3.get_object(object, opts)
@@ -148,7 +148,7 @@ defmodule ExAws.S3.Crypto do
       {:ok, decrypted} = ExAws.S3.Crypto.decrypt(encrypted)
       IO.puts decrypted.body
   """
-  @spec decrypt(response :: ExAws.Request.response_t()) :: ExAws.Request.response_t()
+  @spec decrypt(response :: term()) :: term()
   def decrypt(%{body: body, headers: headers} = response) do
     case decrypt_body(body, Map.new(headers)) do
       {:ok, decrypted} ->
