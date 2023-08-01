@@ -189,7 +189,7 @@ defmodule ExAws.S3.Crypto do
       byte_size(decrypted) == expected ->
         {:ok}
 
-      String.length(decrypted) == expected ->
+      is_binary(decrypted) and String.length(decrypted) == expected ->
         # due to a bug in the way size was previously calculated (using String.length) don't
         # error if the String length of the decrypted result matches the expected value
         {:ok}
