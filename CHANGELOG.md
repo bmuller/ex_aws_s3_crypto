@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.0.2 (2023-08-01)
+
+### Bug Fixes
+
+  * Fixed a bug where `String.length/1` may have been called on non-string data
+
 ## v3.0.1 (2022-05-18)
 
 ### Bug Fixes
