@@ -1,5 +1,11 @@
 # Changelog
 
+## v3.1.0 (2023-08-02)
+
+### Removed
+
+  * Removed automatic check to ensure the decrypted object has the same size as the metadata indicates. `valid_length?/1` can now be optionally used for this check.
+
 ## v3.0.2 (2023-08-01)
 
 ### Bug Fixes

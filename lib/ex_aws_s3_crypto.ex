@@ -150,12 +150,25 @@ defmodule ExAws.S3.Crypto do
   """
   @spec decrypt(response :: term()) :: term()
   def decrypt(%{body: body, headers: headers} = response) do
-    case decrypt_body(body, Map.new(headers)) do
-      {:ok, decrypted} ->
-        {:ok, %{response | body: decrypted}}
+    with {:ok, decrypted} <- decrypt_body(body, Map.new(headers)) do
+      {:ok, %{response | body: decrypted}}
+    end
+  end
 
-      err ->
-        err
+  @doc """
+  Determine if the length of a decrypted response is what was expected based on file metadata.
+
+  The first argument should be the result of a call to `decrypt/1` or `get_encrypted_object/3`.
+  """
+  @spec valid_length?(response :: term()) :: boolean()
+  def valid_length?(%{body: body, headers: headers}) do
+    case List.keyfind(headers, "x-amz-meta-x-amz-unencrypted-content-length", 0) do
+      {_, length} ->
+        String.to_integer(length) == byte_size(body)
+
+      nil ->
+        raise ArgumentError,
+          message: "Argument should be the result of a successful decrypt/1 call"
     end
   end
 
@@ -166,40 +179,15 @@ defmodule ExAws.S3.Crypto do
            "x-amz-meta-x-amz-iv" => encoded_iv,
            "x-amz-meta-x-amz-key-v2" => encrypted_keyblob,
            "x-amz-meta-x-amz-matdesc" => matdesc
-         } = headers
+         }
        ) do
     with {:ok, context} <- Jason.decode(matdesc),
-         {:ok, key} <- KMSWrapper.decrypt_key(encrypted_keyblob, context),
-         {:ok, decrypted} <- AESGCMCipher.decrypt(key, body, :base64.decode(encoded_iv)),
-         {:ok} <- validate_length(decrypted, headers) do
-      {:ok, decrypted}
-    else
-      err ->
-        err
+         {:ok, key} <- KMSWrapper.decrypt_key(encrypted_keyblob, context) do
+      AESGCMCipher.decrypt(key, body, :base64.decode(encoded_iv))
     end
   end
 
   defp decrypt_body(_, _), do: {:error, "Object missing client-side encryption metadata necssary"}
-
-  defp validate_length(decrypted, %{"x-amz-meta-x-amz-unencrypted-content-length" => length}) do
-    expected = String.to_integer(length)
-    bytes = byte_size(decrypted)
-
-    cond do
-      byte_size(decrypted) == expected ->
-        {:ok}
-
-      is_binary(decrypted) and String.length(decrypted) == expected ->
-        # due to a bug in the way size was previously calculated (using String.length) don't
-        # error if the String length of the decrypted result matches the expected value
-        {:ok}
-
-      true ->
-        {:error, "Decrypted body size (#{bytes}) is not size expected in headers (#{expected})"}
-    end
-  end
-
-  defp validate_length(_decrypted, _headers), do: {:ok}
 
   defp update_request(
          %ExAws.Operation.S3{headers: headers, body: contents} = operation,
