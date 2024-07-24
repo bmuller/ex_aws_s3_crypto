@@ -59,6 +59,7 @@ defmodule ExAwsS3Crypto.MixProject do
     [
       {:configparser_ex, "~> 4.0", only: [:dev, :test]},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: :dev, runtime: false},
       {:ex_aws, "~> 2.2"},
       {:ex_aws_kms, "~> 2.2"},
       {:ex_aws_s3, "~> 2.2"},

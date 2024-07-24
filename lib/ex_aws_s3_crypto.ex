@@ -122,16 +122,12 @@ defmodule ExAws.S3.Crypto do
       ExAws.request(encrypted_request)
   """
   @spec encrypt(operation :: ExAws.Operation.S3.t(), key_id :: binary, opts :: encrypt_opts) ::
-          ExAws.Operation.S3.t()
+          {:ok, ExAws.Operation.S3.t()} | {:error, String.t()}
   def encrypt(%ExAws.Operation.S3{http_method: :put} = operation, key_id, opts \\ []) do
     cipher = Keyword.get(opts, :cipher, :aes_gcm)
 
-    case KMSWrapper.generate_data_key(key_id) do
-      {:ok, {encrypted_keyblob, key}} ->
-        update_request(operation, encrypted_keyblob, key, key_id, cipher)
-
-      err ->
-        err
+    with {:ok, {encrypted_keyblob, key}} <- KMSWrapper.generate_data_key(key_id) do
+      update_request(operation, encrypted_keyblob, key, key_id, cipher)
     end
   end
 
