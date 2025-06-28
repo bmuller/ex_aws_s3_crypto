@@ -10,7 +10,7 @@ defmodule ExAws.S3.Crypto.AESGCMCipherTest do
       {:ok, {crypted, iv}} = AESGCMCipher.encrypt(key, contents)
 
       textsize = (byte_size(crypted) - 16) * 8
-      <<ciphertext::bitstring-size(textsize), ciphertag::bitstring>> = crypted
+      <<ciphertext::bitstring-size(^textsize), ciphertag::bitstring>> = crypted
 
       decrypted =
         :crypto.crypto_one_time_aead(:aes_256_gcm, key, iv, ciphertext, "", ciphertag, false)

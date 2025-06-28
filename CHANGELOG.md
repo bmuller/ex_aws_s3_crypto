@@ -1,5 +1,15 @@
 # Changelog
 
+## v3.2.0 (2025-06-27)
+
+### Deprecations
+
+  * Removed support for Elixir before version 1.15
+
+### Enhancements
+
+  * Removed unecessary dependency on the configparser_ex package
+
 ## v3.1.0 (2023-08-02)
 
 ### Removed

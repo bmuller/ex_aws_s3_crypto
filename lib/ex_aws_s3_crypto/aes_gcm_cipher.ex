@@ -40,7 +40,7 @@ defmodule ExAws.S3.Crypto.AESGCMCipher do
   def decrypt(key, contents, iv)
       when byte_size(contents) > @tag_size and byte_size(iv) == @iv_size do
     textsize = (byte_size(contents) - @tag_size) * 8
-    <<ciphertext::bitstring-size(textsize), ciphertag::bitstring>> = contents
+    <<ciphertext::bitstring-size(^textsize), ciphertag::bitstring>> = contents
 
     :aes_256_gcm
     |> :crypto.crypto_one_time_aead(key, iv, ciphertext, @auth_data, ciphertag, false)

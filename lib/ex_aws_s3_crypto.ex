@@ -212,7 +212,7 @@ defmodule ExAws.S3.Crypto do
       |> Map.merge(put_object_headers(meta: meta))
       |> Map.put("content-type", "binary/octet-stream")
 
-    {:ok, %ExAws.Operation.S3{operation | headers: newheaders, body: encrypted}}
+    {:ok, %{operation | headers: newheaders, body: encrypted}}
   end
 
   defp update_request(_request, _encrypted_keyblob, _key, _key_id, cipher),
